@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./routes/Home";
-
+import Admin from "./routes/Admin";
+import LoginPage from "./components/admin/Login";
 function App() {
 	return (
 		<BrowserRouter>
@@ -9,7 +10,15 @@ function App() {
 					path="/"
 					element={<Home />}
 				/>
-				{/* Optional: Redirect unknown routes */}
+				<Route
+					path="/admin"
+					element={<Admin />}
+				/>
+				<Route
+					path="/login"
+					element={<LoginPage />}
+				/>
+			
 				<Route
 					path="*"
 					element={<Navigate to="/" />}

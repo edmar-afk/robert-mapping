@@ -60,7 +60,7 @@ function TopBar({ isVisible, onCategorySelect, activeCategory }) {
 
 	return (
 		<div
-			className={`absolute flex flex-row items-center top-8 left-1/2 transform -translate-x-1/3 z-[9999] transition-transform duration-300 ${
+			className={`absolute flex flex-row items-center top-8 left-1/2 transform -translate-x-1/3 z-[999] transition-transform duration-300 ${
 				isVisible ? "scale-100" : "scale-0"
 			}`}>
 			{categories.map((cat) => (

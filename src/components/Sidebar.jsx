@@ -1,8 +1,12 @@
-import { useState } from "react";import HighlightOffIcon from "@mui/icons-material/HighlightOff";import ContentCopyIcon from "@mui/icons-material/ContentCopy";import PwdCharts from "./charts/PwdCharts";
+import { useState } from "react";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import PwdCharts from "./charts/PwdCharts";
 import InfrasChart from "./charts/InfrasChart";
 import SeniorCharts from "./charts/SeniorCharts";
 import HouseholdChart from "./charts/HouseholdChart";
 import FeedbackChart from "./charts/FeedbackChart";
+import { Link } from "react-router-dom";
 
 function Sidebar({ lat, lng, isVisible, onClose, categoryKey }) {
 	const [copied, setCopied] = useState(false);
@@ -16,7 +20,7 @@ function Sidebar({ lat, lng, isVisible, onClose, categoryKey }) {
 	return (
 		<>
 			<div
-				className={`fixed top-4 z-[9999] w-96 h-[calc(100vh-2rem)] bg-white p-4 overflow-y-scroll rounded-xl shadow-lg transition-transform duration-300 ${
+				className={`fixed top-4 z-[999] w-96 h-[calc(100vh-2rem)] bg-white p-4 overflow-y-scroll rounded-xl shadow-lg transition-transform duration-300 ${
 					isVisible ? "translate-x-0 left-4" : "-translate-x-full left-0"
 				}`}>
 				<div className="flex items-center justify-between mb-4">
@@ -48,7 +52,9 @@ function Sidebar({ lat, lng, isVisible, onClose, categoryKey }) {
 					) : categoryKey === "feedbacks" ? (
 						<FeedbackChart />
 					) : (
-						<p className="text-gray-500 text-center pt-44 text-xl">No Data found.</p>
+						<p className="text-gray-500 text-center pt-44 text-xl">
+							No Data found. <Link to={'/login'} className="text-blue-600 font-bold">Login</Link> to add data.
+						</p>
 					)}
 				</div>
 			</div>
