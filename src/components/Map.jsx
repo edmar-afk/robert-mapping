@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { MapContainer, TileLayer, useMapEvents, Marker, Popup } from "react-leaflet";
+import { useState } from "react";import { MapContainer, TileLayer, useMapEvents, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import api from "../assets/api";
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
 import FeedBack from "./FeedBack";
+import Search from "./Search";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -23,6 +23,13 @@ const redIcon = new L.Icon({
 	shadowSize: [41, 41],
 });
 
+const radarIcon = L.divIcon({
+	className: "",
+	html: `<div class="radar-pulse"></div>`,
+	iconSize: [40, 40],
+	iconAnchor: [20, 20],
+});
+
 function ClickHandler({ onClick }) {
 	useMapEvents({
 		click(e) {
@@ -32,11 +39,37 @@ function ClickHandler({ onClick }) {
 	return null;
 }
 
+function SearchMarker({ coords, data }) {
+	const map = useMap();
+
+	if (coords) {
+		map.setView([coords.lat, coords.lng], 25);
+	}
+
+	return (
+		<>
+			<Marker
+				position={[coords.lat, coords.lng]}
+				icon={radarIcon}
+			/>
+			<Marker
+				position={[coords.lat, coords.lng]}
+				icon={redIcon}>
+				<Popup>
+					<b>Found:</b> {data.people || data.name || data.family_name}
+				</Popup>
+			</Marker>
+		</>
+	);
+}
+
 function Map() {
 	const [isVisible, setIsVisible] = useState(false);
 	const [coords, setCoords] = useState(null);
 	const [categoryPins, setCategoryPins] = useState([]);
 	const [activeCategory, setActiveCategory] = useState(null);
+	const [searchCoords, setSearchCoords] = useState(null);
+	const [searchData, setSearchData] = useState(null);
 
 	const handleClick = (clickedCoords) => {
 		setCoords(clickedCoords);
@@ -45,6 +78,7 @@ function Map() {
 
 	const handleCategorySelect = async (categoryKey) => {
 		setActiveCategory(categoryKey);
+		setSearchCoords(null);
 		try {
 			const response = await api.get(`/api/${categoryKey}/`);
 			setCategoryPins(response.data);
@@ -54,8 +88,18 @@ function Map() {
 		}
 	};
 
+	const handleSearchResult = ({ lat, lng, data }) => {
+		setSearchCoords({ lat, lng });
+		setSearchData(data);
+	};
+
 	return (
 		<div className="relative">
+			<Search
+				pins={categoryPins}
+				onResult={handleSearchResult}
+			/>
+
 			<MapContainer
 				center={[7.9835, 123.1116]}
 				zoom={25}
@@ -74,6 +118,13 @@ function Map() {
 							Lat: {coords.lat.toFixed(5)}, Lng: {coords.lng.toFixed(5)}
 						</Popup>
 					</Marker>
+				)}
+
+				{searchCoords && (
+					<SearchMarker
+						coords={searchCoords}
+						data={searchData}
+					/>
 				)}
 
 				{activeCategory &&
@@ -112,7 +163,11 @@ function Map() {
 												<img
 													src={item.image || "https://images.unsplash.com/photo-1499856871958-5b9627545d1a"}
 													alt={item.name}
-													style={{ width: "100%", height: "auto", marginTop: "5px" }}
+													style={{
+														width: "100%",
+														height: "auto",
+														marginTop: "5px",
+													}}
 												/>
 											</>
 										) : activeCategory === "seniors" ? (

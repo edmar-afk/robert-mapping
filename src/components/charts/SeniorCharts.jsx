@@ -82,7 +82,7 @@ function SeniorCharts() {
 		<>
 			<div>
 				<p className="my-12 text-center text-lg font-semibold">
-					Lists of PWDS in Brgy Matin-ao Bayog Zamboanga del Sur.
+					Lists of Seniors in Brgy Matin-ao Bayog Zamboanga del Sur.
 				</p>
 				<Chart
 					options={ageOptions}
