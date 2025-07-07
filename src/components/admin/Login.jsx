@@ -1,5 +1,4 @@
-import React, { useState } from "react";import { useNavigate } from "react-router-dom";
-
+import React, { useState } from "react";import { useNavigate } from "react-router-dom";import image from '../../assets/image.jpg';
 export default function LoginPage() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -45,7 +44,6 @@ export default function LoginPage() {
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 							/>
-						
 						</div>
 						{error && <p className="text-sm text-red-500 mt-1">{error}</p>}
 						<button
@@ -59,7 +57,7 @@ export default function LoginPage() {
 				<div className="md:block hidden w-1/2">
 					<img
 						className="rounded-2xl max-h-[1600px]"
-						src="https://images.unsplash.com/photo-1552010099-5dc86fcfaa38?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxfHxmcmVzaHxlbnwwfDF8fHwxNzEyMTU4MDk0fDA&ixlib=rb-4.0.3&q=80&w=1080"
+						src={image}
 						alt="login form image"
 					/>
 				</div>

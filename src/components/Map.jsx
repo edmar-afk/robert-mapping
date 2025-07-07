@@ -127,6 +127,8 @@ function Map() {
 					/>
 				)}
 
+			
+
 				{activeCategory &&
 					categoryPins
 						.filter((item) => item.location && item.location.includes(","))
