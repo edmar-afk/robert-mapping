@@ -6,7 +6,8 @@ import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
 import FeedBack from "./FeedBack";
 import Search from "./Search";
-
+import Pwds from "./pins/Pwds";
+import Seniors from "./pins/Seniors";
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
 	iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
@@ -127,8 +128,6 @@ function Map() {
 					/>
 				)}
 
-			
-
 				{activeCategory &&
 					categoryPins
 						.filter((item) => item.location && item.location.includes(","))
@@ -154,9 +153,11 @@ function Map() {
 									<Popup>
 										{activeCategory === "pwds" ? (
 											<>
-												Name: {item.people} <br />
-												Age: {item.age} <br />
-												Gender: {item.gender}
+												<Pwds
+													name={item.people}
+													age={item.age}
+													gender={item.gender}
+												/>
 											</>
 										) : activeCategory === "infras" ? (
 											<>
@@ -174,9 +175,11 @@ function Map() {
 											</>
 										) : activeCategory === "seniors" ? (
 											<>
-												Name: {item.people} <br />
-												Age: {item.age} <br />
-												Gender: {item.gender}
+												<Seniors
+													name={item.people}
+													age={item.age}
+													gender={item.gender}
+												/>
 											</>
 										) : activeCategory === "households" ? (
 											<>
